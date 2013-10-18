@@ -10,6 +10,9 @@
   </component>
   <component name="ResourceCompilerConfiguration">
     <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="*.form" />
+    </wildcardResourcePatterns>
   </component>
 </project>
 
