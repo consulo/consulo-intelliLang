@@ -60,7 +60,6 @@ import com.intellij.openapi.fileChooser.FileChooserFactory;
 import com.intellij.openapi.fileChooser.FileSaverDescriptor;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.PlainTextFileType;
-import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.NonDefaultProjectConfigurable;
 import com.intellij.openapi.options.SearchableConfigurable;
@@ -1081,7 +1080,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, NonD
 			@Override
 			public boolean isFileSelectable(VirtualFile file)
 			{
-				return file.getFileType() == StdFileTypes.XML;
+				return "xml".equalsIgnoreCase(file.getExtension());
 			}
 		};
 		descriptor.setDescription("Please select the configuration file (usually named IntelliLang.xml) to import.");
