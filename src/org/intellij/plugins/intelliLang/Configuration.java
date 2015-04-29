@@ -146,8 +146,8 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
 
     private final Configuration myParentConfiguration;
 
-    Prj(final Configuration configuration) {
-      myParentConfiguration = configuration;
+    Prj() {
+      myParentConfiguration = getInstance();
     }
 
     @Override
@@ -355,10 +355,12 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
     return element;
   }
 
+  @NotNull
   public static Configuration getInstance() {
     return ServiceManager.getService(Configuration.class);
   }
 
+  @NotNull
   public static Configuration getProjectInstance(Project project) {
     return ServiceManager.getService(project, Configuration.class);
   }
