@@ -27,7 +27,7 @@
 
 		<highlightErrorFilter implementation="org.intellij.plugins.intelliLang.inject.CustomErrorElementFilter"/>
 
-		<projectConfigurable instance="org.intellij.plugins.intelliLang.InjectionsSettingsUI"/>
+		<projectConfigurable displayName="Language Injections" parentId="editor" instance="org.intellij.plugins.intelliLang.InjectionsSettingsUI"/>
 
 		<multiHostInjector forClass="com.intellij.psi.PsiLanguageInjectionHost"
 						   implementationClass="org.intellij.plugins.intelliLang.inject.CommentLanguageInjector"/>
