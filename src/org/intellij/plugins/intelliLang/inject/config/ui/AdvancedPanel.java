@@ -15,49 +15,60 @@
  */
 package org.intellij.plugins.intelliLang.inject.config.ui;
 
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+
+import org.intellij.lang.regexp.RegExpLanguage;
+import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.LanguageTextField;
-import org.intellij.lang.regexp.RegExpLanguage;
-import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 
-import javax.swing.*;
+public class AdvancedPanel extends AbstractInjectionPanel<BaseInjection>
+{
 
-public class AdvancedPanel extends AbstractInjectionPanel<BaseInjection> {
+	private JPanel myRoot;
 
-  private JPanel myRoot;
+	private EditorTextField myValuePattern;
+	private JCheckBox mySingleFileCheckBox;
 
-  private EditorTextField myValuePattern;
-  private JCheckBox mySingleFileCheckBox;
+	public AdvancedPanel(Project project, BaseInjection injection)
+	{
+		super(injection, project);
+	}
 
-  public AdvancedPanel(Project project, BaseInjection injection) {
-    super(injection, project);
-    $$$setupUI$$$(); // see IDEA-9987
-  }
+	@Override
+	protected void apply(BaseInjection other)
+	{
+		other.setValuePattern(myValuePattern.getText());
+		other.setSingleFile(mySingleFileCheckBox.isSelected());
+	}
 
-  protected void apply(BaseInjection other) {
-    other.setValuePattern(myValuePattern.getText());
-    other.setSingleFile(mySingleFileCheckBox.isSelected());
-  }
+	@Override
+	protected void resetImpl()
+	{
+		BaseInjection origInjection = getOrigInjection();
+		myValuePattern.setText(origInjection.getValuePattern());
 
-  protected void resetImpl() {
-    myValuePattern.setText(myOrigInjection.getValuePattern());
-    mySingleFileCheckBox.setSelected(myOrigInjection.isSingleFile());
-  }
+		mySingleFileCheckBox.setSelected(origInjection.isSingleFile());
+	}
 
-  public JPanel getComponent() {
-    return myRoot;
-  }
+	@Override
+	public JPanel getComponent()
+	{
+		return myRoot;
+	}
 
-  private void createUIComponents() {
-    myValuePattern = new LanguageTextField(RegExpLanguage.INSTANCE, myProject, myOrigInjection.getValuePattern(), new LanguageTextField.SimpleDocumentCreator() {
-      public void customizePsiFile(PsiFile psiFile) {
-        psiFile.putCopyableUserData(ValueRegExpAnnotator.KEY, Boolean.TRUE);
-      }
-    });
-  }
-
-  private void $$$setupUI$$$() {
-  }
+	private void createUIComponents()
+	{
+		myValuePattern = new LanguageTextField(RegExpLanguage.INSTANCE, getProject(), getOrigInjection().getValuePattern(), new LanguageTextField.SimpleDocumentCreator()
+		{
+			@Override
+			public void customizePsiFile(PsiFile psiFile)
+			{
+				psiFile.putCopyableUserData(ValueRegExpAnnotator.KEY, Boolean.TRUE);
+			}
+		});
+	}
 }

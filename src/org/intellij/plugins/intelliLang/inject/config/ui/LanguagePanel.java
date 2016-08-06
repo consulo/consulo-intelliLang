@@ -15,6 +15,21 @@
  */
 package org.intellij.plugins.intelliLang.inject.config.ui;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+
+import org.intellij.plugins.intelliLang.inject.InjectedLanguage;
+import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.Language;
 import com.intellij.openapi.editor.ex.util.LexerEditorHighlighter;
 import com.intellij.openapi.editor.impl.EditorImpl;
@@ -27,144 +42,166 @@ import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.ColoredListCellRendererWrapper;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.SimpleTextAttributes;
-import org.intellij.plugins.intelliLang.inject.InjectedLanguage;
-import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+public class LanguagePanel extends AbstractInjectionPanel<BaseInjection>
+{
+	private JPanel myRoot;
+	private ComboBox myLanguage;
+	private EditorTextField myPrefix;
+	private EditorTextField mySuffix;
 
-public class LanguagePanel extends AbstractInjectionPanel<BaseInjection> {
-  private JPanel myRoot;
-  private ComboBox myLanguage;
-  private EditorTextField myPrefix;
-  private EditorTextField mySuffix;
+	public LanguagePanel(Project project, BaseInjection injection)
+	{
+		super(injection, project);
 
-  public LanguagePanel(Project project, BaseInjection injection) {
-    super(injection, project);
-    $$$setupUI$$$();
+		final String[] languageIDs = InjectedLanguage.getAvailableLanguageIDs();
+		Arrays.sort(languageIDs);
 
-    final String[] languageIDs = InjectedLanguage.getAvailableLanguageIDs();
-    Arrays.sort(languageIDs);
+		myLanguage.setModel(new DefaultComboBoxModel(languageIDs));
+		myLanguage.setRenderer(new ColoredListCellRendererWrapper<String>()
+		{
+			final Set<String> IDs = new HashSet<String>(Arrays.asList(languageIDs));
 
-    myLanguage.setModel(new DefaultComboBoxModel(languageIDs));
-    myLanguage.setRenderer(new ColoredListCellRendererWrapper<String>() {
-      final Set<String> IDs = new HashSet<String>(Arrays.asList(languageIDs));
+			@Override
+			protected void doCustomize(JList list, String s, int index, boolean selected, boolean hasFocus)
+			{
+				final SimpleTextAttributes attributes = IDs.contains(s) ? SimpleTextAttributes.REGULAR_ATTRIBUTES : SimpleTextAttributes.ERROR_ATTRIBUTES;
+				append(s, attributes);
 
-      @Override
-      protected void doCustomize(JList list, String s, int index, boolean selected, boolean hasFocus) {
-        final SimpleTextAttributes attributes =
-            IDs.contains(s) ? SimpleTextAttributes.REGULAR_ATTRIBUTES : SimpleTextAttributes.ERROR_ATTRIBUTES;
-        append(s, attributes);
+				final Language language = InjectedLanguage.findLanguageById(s);
+				if(language != null)
+				{
+					final FileType fileType = language.getAssociatedFileType();
+					if(fileType != null)
+					{
+						setIcon(fileType.getIcon());
+						append(" ", SimpleTextAttributes.REGULAR_ATTRIBUTES);
+						append("(" + fileType.getDescription() + ")", SimpleTextAttributes.GRAYED_ATTRIBUTES);
+					}
+				}
+			}
+		});
+		myLanguage.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
+				if(e.getStateChange() == ItemEvent.SELECTED)
+				{
+					updateHighlighters();
+				}
+			}
+		});
 
-        final Language language = InjectedLanguage.findLanguageById(s);
-        if (language != null) {
-          final FileType fileType = language.getAssociatedFileType();
-          if (fileType != null) {
-            setIcon(fileType.getIcon());
-            append(" ", SimpleTextAttributes.REGULAR_ATTRIBUTES);
-            append("(" + fileType.getDescription() + ")", SimpleTextAttributes.GRAYED_ATTRIBUTES);
-          }
-        }
-      }
-    });
-    myLanguage.addItemListener(new ItemListener() {
-      public void itemStateChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-          updateHighlighters();
-        }
-      }
-    });
+		myRoot.addAncestorListener(new AncestorListener()
+		{
+			@Override
+			public void ancestorAdded(AncestorEvent event)
+			{
+				updateHighlighters();
+			}
 
-    myRoot.addAncestorListener(new AncestorListener() {
-      public void ancestorAdded(AncestorEvent event) {
-        updateHighlighters();
-      }
+			@Override
+			public void ancestorRemoved(AncestorEvent event)
+			{
+			}
 
-      public void ancestorRemoved(AncestorEvent event) {
-      }
+			@Override
+			public void ancestorMoved(AncestorEvent event)
+			{
+			}
+		});
+	}
 
-      public void ancestorMoved(AncestorEvent event) {
-      }
-    });
-  }
+	private void updateHighlighters()
+	{
+		final EditorImpl editor = ((EditorImpl) myPrefix.getEditor());
+		if(editor == null)
+		{
+			return;
+		}
 
-  private void updateHighlighters() {
-    final EditorImpl editor = ((EditorImpl)myPrefix.getEditor());
-    if (editor == null) return;
+		final EditorImpl editor2 = ((EditorImpl) mySuffix.getEditor());
+		assert editor2 != null;
 
-    final EditorImpl editor2 = ((EditorImpl)mySuffix.getEditor());
-    assert editor2 != null;
+		final Language language = InjectedLanguage.findLanguageById(getLanguage());
+		if(language == null)
+		{
+			editor.setHighlighter(new LexerEditorHighlighter(new PlainSyntaxHighlighter(), editor.getColorsScheme()));
+			editor2.setHighlighter(new LexerEditorHighlighter(new PlainSyntaxHighlighter(), editor.getColorsScheme()));
+		}
+		else
+		{
+			final SyntaxHighlighter s1 = SyntaxHighlighterFactory.getSyntaxHighlighter(language, getProject(), null);
+			final SyntaxHighlighter s2 = SyntaxHighlighterFactory.getSyntaxHighlighter(language, getProject(), null);
+			editor.setHighlighter(new LexerEditorHighlighter(s1, editor.getColorsScheme()));
+			editor2.setHighlighter(new LexerEditorHighlighter(s2, editor2.getColorsScheme()));
+		}
+	}
 
-    final Language language = InjectedLanguage.findLanguageById(getLanguage());
-    if (language == null) {
-      editor.setHighlighter(new LexerEditorHighlighter(new PlainSyntaxHighlighter(), editor.getColorsScheme()));
-      editor2.setHighlighter(new LexerEditorHighlighter(new PlainSyntaxHighlighter(), editor.getColorsScheme()));
-    }
-    else {
-      final SyntaxHighlighter s1 = SyntaxHighlighterFactory.getSyntaxHighlighter(language, myProject, null);
-      final SyntaxHighlighter s2 = SyntaxHighlighterFactory.getSyntaxHighlighter(language, myProject, null);
-      editor.setHighlighter(new LexerEditorHighlighter(s1, editor.getColorsScheme()));
-      editor2.setHighlighter(new LexerEditorHighlighter(s2, editor2.getColorsScheme()));
-    }
-  }
+	@NotNull
+	public String getLanguage()
+	{
+		return (String) myLanguage.getSelectedItem();
+	}
 
-  @NotNull
-  public String getLanguage() {
-    return (String)myLanguage.getSelectedItem();
-  }
+	public void setLanguage(String id)
+	{
+		final DefaultComboBoxModel model = (DefaultComboBoxModel) myLanguage.getModel();
+		if(model.getIndexOf(id) == -1 && id.length() > 0)
+		{
+			model.insertElementAt(id, 0);
+		}
+		myLanguage.setSelectedItem(id);
+		updateHighlighters();
+	}
 
-  public void setLanguage(String id) {
-    final DefaultComboBoxModel model = (DefaultComboBoxModel)myLanguage.getModel();
-    if (model.getIndexOf(id) == -1 && id.length() > 0) {
-      model.insertElementAt(id, 0);
-    }
-    myLanguage.setSelectedItem(id);
-    updateHighlighters();
-  }
+	public String getPrefix()
+	{
+		return myPrefix.getText();
+	}
 
-  public String getPrefix() {
-    return myPrefix.getText();
-  }
+	public void setPrefix(String s)
+	{
+		if(!myPrefix.getText().equals(s))
+		{
+			myPrefix.setText(s);
+		}
+	}
 
-  public void setPrefix(String s) {
-    if (!myPrefix.getText().equals(s)) {
-      myPrefix.setText(s);
-    }
-  }
+	public String getSuffix()
+	{
+		return mySuffix.getText();
+	}
 
-  public String getSuffix() {
-    return mySuffix.getText();
-  }
+	public void setSuffix(String s)
+	{
+		if(!mySuffix.getText().equals(s))
+		{
+			mySuffix.setText(s);
+		}
+	}
 
-  public void setSuffix(String s) {
-    if (!mySuffix.getText().equals(s)) {
-      mySuffix.setText(s);
-    }
-  }
+	@Override
+	protected void resetImpl()
+	{
+		BaseInjection origInjection = getOrigInjection();
+		setLanguage(origInjection.getInjectedLanguageId());
+		setPrefix(origInjection.getPrefix());
+		setSuffix(origInjection.getSuffix());
+	}
 
-  protected void resetImpl() {
-    setLanguage(myOrigInjection.getInjectedLanguageId());
-    setPrefix(myOrigInjection.getPrefix());
-    setSuffix(myOrigInjection.getSuffix());
-  }
+	@Override
+	protected void apply(BaseInjection i)
+	{
+		i.setInjectedLanguageId(getLanguage());
+		i.setPrefix(getPrefix());
+		i.setSuffix(getSuffix());
+	}
 
-  protected void apply(BaseInjection i) {
-    i.setInjectedLanguageId(getLanguage());
-    i.setPrefix(getPrefix());
-    i.setSuffix(getSuffix());
-  }
-
-  public JPanel getComponent() {
-    return myRoot;
-  }
-
-  private void $$$setupUI$$$() {
-  }
+	@Override
+	public JPanel getComponent()
+	{
+		return myRoot;
+	}
 }

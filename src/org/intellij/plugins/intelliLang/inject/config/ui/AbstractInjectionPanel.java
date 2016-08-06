@@ -35,13 +35,14 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 	private final List<Field> myOtherPanels = new ArrayList<Field>(3);
 	private final List<Runnable> myUpdaters = new ArrayList<Runnable>(1);
 
-	protected final Project myProject;
+	@NotNull
+	private final Project myProject;
 
 	/**
 	 * The orignal item - must not be modified unless apply() is called.
 	 */
 	@NotNull
-	protected final T myOrigInjection;
+	private final T myOrigInjection;
 
 	/**
 	 * Represents the current UI state. Outside access should use {@link #getInjection()}
@@ -64,12 +65,26 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 		}
 	}
 
+	@NotNull
+	public Project getProject()
+	{
+		return myProject;
+	}
+
+	@NotNull
+	public T getOrigInjection()
+	{
+		return myOrigInjection;
+	}
+
+	@Override
 	public final T getInjection()
 	{
 		apply(myEditCopy);
 		return myEditCopy;
 	}
 
+	@Override
 	@SuppressWarnings({"unchecked"})
 	public final void init(@NotNull T copy)
 	{
@@ -83,6 +98,7 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 		reset();
 	}
 
+	@Override
 	public final boolean isModified()
 	{
 		apply(myEditCopy);
@@ -96,6 +112,7 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 		return !myEditCopy.equals(myOrigInjection);
 	}
 
+	@Override
 	@SuppressWarnings({"unchecked"})
 	public final void apply()
 	{
@@ -111,6 +128,7 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 
 	protected abstract void apply(T other);
 
+	@Override
 	@SuppressWarnings({"unchecked"})
 	public final void reset()
 	{
@@ -121,6 +139,7 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 		myEditCopy.copyFrom(myOrigInjection);
 		UIUtil.invokeAndWaitIfNeeded(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				resetImpl();
@@ -130,6 +149,7 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 
 	protected abstract void resetImpl();
 
+	@Override
 	public void addUpdater(Runnable updater)
 	{
 		myUpdaters.add(updater);
@@ -163,6 +183,7 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 
 	protected class TreeUpdateListener extends DocumentAdapter
 	{
+		@Override
 		public void documentChanged(DocumentEvent e)
 		{
 			updateTree();
