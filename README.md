@@ -1,1 +1,1 @@
-![Build Status](http://must-be.org/vulcan/statusImage?name=consulo-intelliLang)
+[![Build Status](http://must-be.org/jenkins/job/consulo-intelliLang/badge/icon)](http://must-be.org/jenkins/job/consulo-intelliLang/)
