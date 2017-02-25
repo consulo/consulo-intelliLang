@@ -53,7 +53,6 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.components.StoragePathMacros;
-import com.intellij.openapi.components.StorageScheme;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.extensions.PluginDescriptor;
@@ -101,9 +100,7 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
     }
   };
 
-  @State(
-    name = Configuration.COMPONENT_NAME,
-    storages = {@Storage( file = StoragePathMacros.APP_CONFIG + "/IntelliLang.xml", scheme = StorageScheme.DIRECTORY_BASED)})
+  @State(name = Configuration.COMPONENT_NAME, storages = @Storage(file = StoragePathMacros.APP_CONFIG + "/IntelliLang.xml"))
   public static class App extends Configuration {
 
     private final List<BaseInjection> myDefaultInjections;
@@ -137,11 +134,7 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
       return getState(element);
     }
   }
-  @State(
-    name = Configuration.COMPONENT_NAME,
-    storages = {
-      @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/IntelliLang.xml", scheme = StorageScheme.DIRECTORY_BASED)
-    })
+  @State(name = Configuration.COMPONENT_NAME, storages =  @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/IntelliLang.xml"))
   public static class Prj extends Configuration {
 
     private final Configuration myParentConfiguration;
