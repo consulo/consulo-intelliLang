@@ -181,7 +181,7 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 		}
 	}
 
-	protected class TreeUpdateListener extends DocumentAdapter
+	public class TreeUpdateListener extends DocumentAdapter
 	{
 		@Override
 		public void documentChanged(DocumentEvent e)
