@@ -1086,7 +1086,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, NonD
 		descriptor.setDescription("Please select the configuration file (usually named IntelliLang.xml) to import.");
 		descriptor.setTitle("Import Configuration");
 
-		descriptor.putUserData(LangDataKeys.MODULE_CONTEXT, LangDataKeys.MODULE.getData(dataContext));
+		descriptor.putUserData(LangDataKeys.MODULE_CONTEXT, dataContext.getData(LangDataKeys.MODULE));
 
 		final SplitterProportionsData splitterData = new SplitterProportionsDataImpl();
 		splitterData.externalizeFromDimensionService("IntelliLang.ImportSettingsKey.SplitterProportions");

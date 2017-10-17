@@ -39,7 +39,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
-import com.intellij.ui.ColoredListCellRendererWrapper;
+import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.SimpleTextAttributes;
 
@@ -58,12 +58,12 @@ public class LanguagePanel extends AbstractInjectionPanel<BaseInjection>
 		Arrays.sort(languageIDs);
 
 		myLanguage.setModel(new DefaultComboBoxModel(languageIDs));
-		myLanguage.setRenderer(new ColoredListCellRendererWrapper<String>()
+		myLanguage.setRenderer(new ColoredListCellRenderer<String>()
 		{
 			final Set<String> IDs = new HashSet<String>(Arrays.asList(languageIDs));
 
 			@Override
-			protected void doCustomize(JList list, String s, int index, boolean selected, boolean hasFocus)
+			protected void customizeCellRenderer(@NotNull JList<? extends String> jList, String s, int i, boolean b, boolean b1)
 			{
 				final SimpleTextAttributes attributes = IDs.contains(s) ? SimpleTextAttributes.REGULAR_ATTRIBUTES : SimpleTextAttributes.ERROR_ATTRIBUTES;
 				append(s, attributes);
