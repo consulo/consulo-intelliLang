@@ -73,6 +73,7 @@
 			<groupId>consulo.plugin</groupId>
 			<artifactId>com.intellij.regexp</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>
