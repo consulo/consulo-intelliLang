@@ -60,7 +60,6 @@ import com.intellij.openapi.fileChooser.FileSaverDescriptor;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.PlainTextFileType;
 import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.NonDefaultProjectConfigurable;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -100,7 +99,7 @@ import consulo.fileTypes.ArchiveFileType;
 /**
  * @author Gregory.Shrago
  */
-public class InjectionsSettingsUI implements SearchableConfigurable.Parent, NonDefaultProjectConfigurable, Configurable.NoScroll
+public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Configurable.NoScroll
 {
 
 	private final Project myProject;
