@@ -1,1 +1,1 @@
-[![Build Status](http://must-be.org/jenkins/job/consulo-intelliLang/badge/icon)](http://must-be.org/jenkins/job/consulo-intelliLang/)
+[![Build Status](https://ci.consulo.io/job/consulo-intelliLang/badge/icon)](https://ci.consulo.io/job/consulo-intelliLang/)

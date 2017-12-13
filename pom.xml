@@ -35,7 +35,7 @@
 			<url>https://maven.consulo.io/repository/snapshots/</url>
 			<snapshots>
 				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
+				<updatePolicy>interval:60</updatePolicy>
 			</snapshots>
 		</repository>
 	</repositories>
@@ -48,13 +48,14 @@
 				<version>2-SNAPSHOT</version>
 				<extensions>true</extensions>
 				<configuration>
+					<repositoryChannel>nightly</repositoryChannel>
+					<dependencies>
+						<dependency>com.intellij.regexp</dependency>
+					</dependencies>
 					<packaging>
 						<skip>${dev.mode}</skip>
 						<version>${build.number}</version>
 					</packaging>
-					<execution>
-						<repositoryChannel>nightly</repositoryChannel>
-					</execution>
 				</configuration>
 				<executions>
 					<execution>
