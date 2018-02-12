@@ -15,13 +15,17 @@
  */
 package org.intellij.plugins.intelliLang.inject;
 
-import com.intellij.lang.Language;
-import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
-import com.intellij.util.ArrayUtil;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
+import com.intellij.lang.Language;
+import com.intellij.lang.LanguageUtil;
+import com.intellij.util.ArrayUtil;
 
 public final class InjectedLanguage {
   private static Map<String, Language> ourLanguageCache;
@@ -108,7 +112,7 @@ public final class InjectedLanguage {
     do {
       registeredLanguages = new ArrayList<Language>(Language.getRegisteredLanguages());
       for (Language language : registeredLanguages) {
-        if (InjectedLanguageUtil.isInjectableLanguage(language)) {
+        if (LanguageUtil.isInjectableLanguage(language)) {
           ourLanguageCache.put(language.getID(), language);
         }
       }
