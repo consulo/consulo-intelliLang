@@ -23,7 +23,7 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.util.ArrayUtil;
 import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public final class DefaultLanguageInjector implements MultiHostInjector {
 
@@ -36,7 +36,7 @@ public final class DefaultLanguageInjector implements MultiHostInjector {
   }
 
   @Override
-  public void injectLanguages(@NotNull final MultiHostRegistrar registrar, @NotNull final PsiElement context) {
+  public void injectLanguages(@Nonnull final MultiHostRegistrar registrar, @Nonnull final PsiElement context) {
     if (!(context instanceof PsiLanguageInjectionHost) || !((PsiLanguageInjectionHost)context).isValidHost()) return;
     PsiLanguageInjectionHost host = (PsiLanguageInjectionHost)context;
 

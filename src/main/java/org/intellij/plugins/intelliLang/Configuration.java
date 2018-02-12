@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.intellij.plugins.intelliLang.inject.InjectorUtils;
 import org.intellij.plugins.intelliLang.inject.LanguageInjectionConfigBean;
 import org.intellij.plugins.intelliLang.inject.LanguageInjectionSupport;
@@ -40,8 +43,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.Language;
 import com.intellij.openapi.command.UndoConfirmationPolicy;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -160,7 +161,7 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
       return injections;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public List<BaseInjection> getInjections(final String injectorId) {
       return ContainerUtil.concat(myParentConfiguration.getInjections(injectorId), getOwnInjections(injectorId));
@@ -348,12 +349,12 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
     return element;
   }
 
-  @NotNull
+  @Nonnull
   public static Configuration getInstance() {
     return ServiceManager.getService(Configuration.class);
   }
 
-  @NotNull
+  @Nonnull
   public static Configuration getProjectInstance(Project project) {
     return ServiceManager.getService(project, Configuration.class);
   }
@@ -463,7 +464,7 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
   }
 
   @Nullable
-  public BaseInjection findExistingInjection(@NotNull final BaseInjection injection) {
+  public BaseInjection findExistingInjection(@Nonnull final BaseInjection injection) {
     final List<BaseInjection> list = getInjections(injection.getSupportId());
     for (BaseInjection cur : list) {
       if (cur.intersectsWith(injection)) return cur;
@@ -511,7 +512,7 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
   /**
    * @param injectorId see {@link org.intellij.plugins.intelliLang.inject.LanguageInjectionSupport#getId()}
    */
-  @NotNull
+  @Nonnull
   public List<BaseInjection> getInjections(final String injectorId) {
     return Collections.unmodifiableList(myInjections.get(injectorId));
   }
@@ -589,12 +590,16 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
 
   public static class AdvancedConfiguration {
     // runtime pattern validation instrumentation
-    @NotNull private InstrumentationType myInstrumentationType = InstrumentationType.ASSERT;
+    @Nonnull
+	private InstrumentationType myInstrumentationType = InstrumentationType.ASSERT;
 
     // annotation class names
-    @NotNull private String myLanguageAnnotation;
-    @NotNull private String myPatternAnnotation;
-    @NotNull private String mySubstAnnotation;
+    @Nonnull
+	private String myLanguageAnnotation;
+    @Nonnull
+	private String myPatternAnnotation;
+    @Nonnull
+	private String mySubstAnnotation;
 
     private boolean myIncludeUncomputablesAsLiterals;
     private DfaOption myDfaOption = DfaOption.RESOLVE;
@@ -630,7 +635,7 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
       }
     }
 
-    public void setInstrumentationType(@NotNull InstrumentationType type) {
+    public void setInstrumentationType(@Nonnull InstrumentationType type) {
       myInstrumentationType = type;
     }
 
@@ -672,12 +677,12 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
       myIncludeUncomputablesAsLiterals = flag;
     }
 
-    @NotNull
+    @Nonnull
     public DfaOption getDfaOption() {
       return myDfaOption;
     }
 
-    public void setDfaOption(@NotNull final DfaOption dfaOption) {
+    public void setDfaOption(@Nonnull final DfaOption dfaOption) {
       myDfaOption = dfaOption;
     }
 

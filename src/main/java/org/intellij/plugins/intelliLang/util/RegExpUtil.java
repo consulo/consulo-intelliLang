@@ -18,13 +18,15 @@ package org.intellij.plugins.intelliLang.util;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import org.intellij.lang.regexp.RegExpFileType;
 import org.intellij.lang.regexp.psi.RegExpAtom;
 import org.intellij.lang.regexp.psi.RegExpBranch;
 import org.intellij.lang.regexp.psi.RegExpChar;
 import org.intellij.lang.regexp.psi.RegExpPattern;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
@@ -36,7 +38,7 @@ public class RegExpUtil
 	}
 
 	@Nullable
-	public static Set<String> getEnumValues(Project project, @NotNull String regExp)
+	public static Set<String> getEnumValues(Project project, @Nonnull String regExp)
 	{
 		final PsiFileFactory factory = PsiFileFactory.getInstance(project);
 		final PsiFile file = factory.createFileFromText("dummy.regexp", RegExpFileType.INSTANCE, regExp);

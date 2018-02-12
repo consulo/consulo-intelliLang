@@ -15,6 +15,14 @@
  */
 package org.intellij.plugins.intelliLang.inject;
 
+import gnu.trove.THashSet;
+
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.intellij.plugins.intelliLang.Configuration;
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.codeInsight.intention.LowPriorityAction;
 import com.intellij.lang.Language;
@@ -31,29 +39,23 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
 import com.intellij.util.FileContentUtil;
 import com.intellij.util.IncorrectOperationException;
-import gnu.trove.THashSet;
-import org.intellij.plugins.intelliLang.Configuration;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Dmitry Avdeev
  */
 public class UnInjectLanguageAction implements IntentionAction, LowPriorityAction {
 
-  @NotNull
+  @Nonnull
   public String getText() {
     return "Un-inject Language";
   }
 
-  @NotNull
+  @Nonnull
   public String getFamilyName() {
     return getText();
   }
 
-  public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
+  public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
     final int offset = editor.getCaretModel().getOffset();
     final PsiFile psiFile = InjectedLanguageUtil.findInjectedPsiNoCommit(file, offset);
     if (psiFile == null) return false;
@@ -61,7 +63,7 @@ public class UnInjectLanguageAction implements IntentionAction, LowPriorityActio
     return support != null;
   }
 
-  public void invoke(@NotNull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
+  public void invoke(@Nonnull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
     ApplicationManager.getApplication().runReadAction(new Runnable() {
       public void run() {
         invokeImpl(project, editor, file);

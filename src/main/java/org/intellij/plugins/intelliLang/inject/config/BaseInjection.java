@@ -38,8 +38,8 @@ import org.intellij.plugins.intelliLang.inject.InjectorUtils;
 import org.jdom.CDATA;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -55,7 +55,8 @@ public class BaseInjection implements Injection, PersistentStateComponent<Elemen
 
   public static final Key<BaseInjection> INJECTION_KEY = Key.create("INJECTION_KEY");
 
-  @NotNull private final String mySupportId;
+  @Nonnull
+  private final String mySupportId;
   private String myDisplayName;
 
   private String myInjectedLanguageId = "";
@@ -67,33 +68,33 @@ public class BaseInjection implements Injection, PersistentStateComponent<Elemen
   private Pattern myCompiledValuePattern;
   private boolean mySingleFile;
 
-  public BaseInjection(@NotNull final String id) {
+  public BaseInjection(@Nonnull final String id) {
     mySupportId = id;
   }
 
-  @NotNull
+  @Nonnull
   private InjectionPlace[] myPlaces = InjectionPlace.EMPTY_ARRAY;
 
-  @NotNull
+  @Nonnull
   public InjectionPlace[] getInjectionPlaces() {
     return myPlaces;
   }
 
-  public void setInjectionPlaces(@NotNull InjectionPlace... places) {
+  public void setInjectionPlaces(@Nonnull InjectionPlace... places) {
     myPlaces = places;
   }
 
-  @NotNull
+  @Nonnull
   public String getSupportId() {
     return mySupportId;
   }
 
-  @NotNull
+  @Nonnull
   public String getInjectedLanguageId() {
     return myInjectedLanguageId;
   }
 
-  @NotNull
+  @Nonnull
   public String getDisplayName() {
     return myDisplayName;
   }
@@ -102,29 +103,29 @@ public class BaseInjection implements Injection, PersistentStateComponent<Elemen
     myDisplayName = displayName;
   }
 
-  public void setInjectedLanguageId(@NotNull String injectedLanguageId) {
+  public void setInjectedLanguageId(@Nonnull String injectedLanguageId) {
     myInjectedLanguageId = injectedLanguageId;
   }
 
-  @NotNull
+  @Nonnull
   public String getPrefix() {
     return myPrefix;
   }
 
-  public void setPrefix(@NotNull String prefix) {
+  public void setPrefix(@Nonnull String prefix) {
     myPrefix = prefix;
   }
 
-  @NotNull
+  @Nonnull
   public String getSuffix() {
     return mySuffix;
   }
 
-  public void setSuffix(@NotNull String suffix) {
+  public void setSuffix(@Nonnull String suffix) {
     mySuffix = suffix;
   }
 
-  @NotNull
+  @Nonnull
   public List<TextRange> getInjectedArea(final PsiElement element) {
     final TextRange textRange = ElementManipulators.getValueTextRange(element);
     if (myCompiledValuePattern == null) {
@@ -212,7 +213,7 @@ public class BaseInjection implements Injection, PersistentStateComponent<Elemen
     return result;
   }
 
-  public BaseInjection copyFrom(@NotNull BaseInjection other) {
+  public BaseInjection copyFrom(@Nonnull BaseInjection other) {
     assert this != other;
 
     myInjectedLanguageId = other.getInjectedLanguageId();
@@ -293,7 +294,7 @@ public class BaseInjection implements Injection, PersistentStateComponent<Elemen
 
   protected void writeExternalImpl(Element e) {}
 
-  @NotNull
+  @Nonnull
   public String getValuePattern() {
     return myValuePattern;
   }

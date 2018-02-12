@@ -15,13 +15,14 @@
  */
 package org.intellij.plugins.intelliLang.references;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet;
 import com.intellij.psi.injection.ReferenceInjector;
 import com.intellij.util.ProcessingContext;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Dmitry Avdeev
@@ -29,21 +30,21 @@ import org.jetbrains.annotations.NotNull;
  */
 public class FileReferenceInjector extends ReferenceInjector {
 
-  @NotNull
+  @Nonnull
   @Override
   public String getId() {
     return "file-reference";
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDisplayName() {
     return "File Reference";
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public PsiReference[] getReferences(@NotNull PsiElement element, @NotNull ProcessingContext context, @NotNull TextRange range) {
+  public PsiReference[] getReferences(@Nonnull PsiElement element, @Nonnull ProcessingContext context, @Nonnull TextRange range) {
     String text = range.substring(element.getText());
     return new FileReferenceSet(text, element, range.getStartOffset(), null, true) {
       @Override

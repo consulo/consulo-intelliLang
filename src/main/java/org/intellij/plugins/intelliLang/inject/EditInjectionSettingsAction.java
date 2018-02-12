@@ -31,7 +31,7 @@ import com.intellij.util.FileContentUtil;
 import com.intellij.util.IncorrectOperationException;
 import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.InjectionsSettingsUI;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collections;
 
@@ -41,17 +41,17 @@ import java.util.Collections;
 public class EditInjectionSettingsAction implements IntentionAction, LowPriorityAction {
   public static final String EDIT_INJECTION_TITLE = "Language Injection Settings";
 
-  @NotNull
+  @Nonnull
   public String getText() {
     return EDIT_INJECTION_TITLE;
   }
 
-  @NotNull
+  @Nonnull
   public String getFamilyName() {
     return "Edit Injection Settings";
   }
 
-  public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
+  public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
     final int offset = editor.getCaretModel().getOffset();
     final PsiFile psiFile = InjectedLanguageUtil.findInjectedPsiNoCommit(file, offset);
     if (psiFile == null) return false;
@@ -59,7 +59,7 @@ public class EditInjectionSettingsAction implements IntentionAction, LowPriority
     return support != null;
   }
 
-  public void invoke(@NotNull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
+  public void invoke(@Nonnull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
     ApplicationManager.getApplication().runReadAction(new Runnable() {
       public void run() {
         invokeImpl(project, editor, file);

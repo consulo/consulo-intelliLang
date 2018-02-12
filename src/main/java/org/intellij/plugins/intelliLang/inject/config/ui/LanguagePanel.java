@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -29,7 +30,6 @@ import javax.swing.event.AncestorListener;
 
 import org.intellij.plugins.intelliLang.inject.InjectedLanguage;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.Language;
 import com.intellij.openapi.editor.ex.util.LexerEditorHighlighter;
 import com.intellij.openapi.editor.impl.EditorImpl;
@@ -63,7 +63,7 @@ public class LanguagePanel extends AbstractInjectionPanel<BaseInjection>
 			final Set<String> IDs = new HashSet<String>(Arrays.asList(languageIDs));
 
 			@Override
-			protected void customizeCellRenderer(@NotNull JList<? extends String> jList, String s, int i, boolean b, boolean b1)
+			protected void customizeCellRenderer(@Nonnull JList<? extends String> jList, String s, int i, boolean b, boolean b1)
 			{
 				final SimpleTextAttributes attributes = IDs.contains(s) ? SimpleTextAttributes.REGULAR_ATTRIBUTES : SimpleTextAttributes.ERROR_ATTRIBUTES;
 				append(s, attributes);
@@ -139,7 +139,7 @@ public class LanguagePanel extends AbstractInjectionPanel<BaseInjection>
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	public String getLanguage()
 	{
 		return (String) myLanguage.getSelectedItem();

@@ -17,8 +17,7 @@ package org.intellij.plugins.intelliLang.inject.config;
 
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.intellij.plugins.intelliLang.Configuration;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -35,16 +34,16 @@ import java.util.List;
  */
 public interface Injection {
 
-  @NotNull
+  @Nonnull
   String getInjectedLanguageId();
 
-  @NotNull
+  @Nonnull
   String getPrefix();
 
-  @NotNull
+  @Nonnull
   String getSuffix();
 
-  @NotNull
+  @Nonnull
   List<TextRange> getInjectedArea(PsiElement element);
 
   /**
@@ -52,7 +51,7 @@ public interface Injection {
    * return a qualified TAG-NAME/@ATT-NAME combination name instead of just
    * the plain name.
    */
-  @NotNull
+  @Nonnull
   String getDisplayName();
 
   boolean acceptsPsiElement(final PsiElement element);

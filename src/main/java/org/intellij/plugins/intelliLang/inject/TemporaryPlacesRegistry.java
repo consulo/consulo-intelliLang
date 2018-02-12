@@ -27,8 +27,8 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.PairProcessor;
 import com.intellij.util.containers.ContainerUtil;
 import org.intellij.plugins.intelliLang.Configuration;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +44,7 @@ public class TemporaryPlacesRegistry {
   private volatile long myPsiModificationCounter;
 
   private final LanguageInjectionSupport myInjectorSupport = new AbstractLanguageInjectionSupport() {
-    @NotNull
+    @Nonnull
     @Override
     public String getId() {
       return "temp";
@@ -55,7 +55,7 @@ public class TemporaryPlacesRegistry {
       return true;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Class[] getPatternClasses() {
       return ArrayUtil.EMPTY_CLASS_ARRAY;
@@ -161,7 +161,7 @@ public class TemporaryPlacesRegistry {
   }
 
   @Nullable
-  public InjectedLanguage getLanguageFor(@NotNull PsiLanguageInjectionHost host, PsiFile containingFile) {
+  public InjectedLanguage getLanguageFor(@Nonnull PsiLanguageInjectionHost host, PsiFile containingFile) {
     PsiLanguageInjectionHost originalHost = CompletionUtilCoreImpl.getOriginalElement(host, containingFile);
     PsiLanguageInjectionHost injectionHost = originalHost == null ? host : originalHost;
     getInjectionPlacesSafe();

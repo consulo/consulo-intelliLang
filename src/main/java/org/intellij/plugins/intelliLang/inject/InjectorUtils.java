@@ -28,10 +28,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nonnull;
+
 import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.Language;
 import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.openapi.extensions.Extensions;
@@ -72,10 +74,10 @@ public class InjectorUtils {
   }
 
 
-  public static boolean registerInjectionSimple(@NotNull PsiLanguageInjectionHost host,
-                                                @NotNull BaseInjection injection,
+  public static boolean registerInjectionSimple(@Nonnull PsiLanguageInjectionHost host,
+                                                @Nonnull BaseInjection injection,
                                                 @Nullable LanguageInjectionSupport support,
-                                                @NotNull MultiHostRegistrar registrar) {
+                                                @Nonnull MultiHostRegistrar registrar) {
     Language language = InjectedLanguage.findLanguageById(injection.getInjectedLanguageId());
     if (language == null) return false;
 
@@ -131,7 +133,7 @@ public class InjectorUtils {
     }
   }
 
-  @NotNull
+  @Nonnull
   public static Collection<String> getActiveInjectionSupportIds() {
     return ourSupports.keySet();
   }
@@ -144,20 +146,20 @@ public class InjectorUtils {
     return ourSupports.get(id);
   }
 
-  @NotNull
+  @Nonnull
   public static Class[] getPatternClasses(final String supportId) {
     final LanguageInjectionSupport support = findInjectionSupport(supportId);
     return support == null ? ArrayUtil.EMPTY_CLASS_ARRAY : support.getPatternClasses();
   }
 
-  @NotNull
+  @Nonnull
   public static LanguageInjectionSupport findNotNullInjectionSupport(final String id) {
     final LanguageInjectionSupport result = findInjectionSupport(id);
     assert result != null: id+" injector not found";
     return result;
   }
 
-  public static StringBuilder appendStringPattern(@NotNull StringBuilder sb, @NotNull String prefix, @NotNull String text, @NotNull String suffix) {
+  public static StringBuilder appendStringPattern(@Nonnull StringBuilder sb, @Nonnull String prefix, @Nonnull String text, @Nonnull String suffix) {
     sb.append(prefix).append("string().");
     final String[] parts = text.split("[,|\\s]+");
     boolean useMatches = false;
@@ -206,7 +208,7 @@ public class InjectorUtils {
     return false;
   }
 
-  public static void registerSupport(@NotNull LanguageInjectionSupport support, boolean settingsAvailable, @NotNull MultiHostRegistrar registrar) {
+  public static void registerSupport(@Nonnull LanguageInjectionSupport support, boolean settingsAvailable, @Nonnull MultiHostRegistrar registrar) {
     putInjectedFileUserData(registrar, LanguageInjectionSupport.INJECTOR_SUPPORT, support);
     if (settingsAvailable) {
       putInjectedFileUserData(registrar, LanguageInjectionSupport.SETTINGS_EDITOR, support);

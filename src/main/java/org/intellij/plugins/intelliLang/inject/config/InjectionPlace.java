@@ -16,10 +16,11 @@
 
 package org.intellij.plugins.intelliLang.inject.config;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.patterns.ElementPattern;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ArrayFactory;
-import org.jetbrains.annotations.NotNull;
 
 /**
 * @author Gregory.Shrago
@@ -30,7 +31,7 @@ public class InjectionPlace {
   public static final InjectionPlace[] EMPTY_ARRAY = new InjectionPlace[0];
 
   public static final ArrayFactory<InjectionPlace> ARRAY_FACTORY = new ArrayFactory<InjectionPlace>() {
-    @NotNull
+    @Nonnull
     @Override
     public InjectionPlace[] create(int count) {
       return count == 0? EMPTY_ARRAY : new InjectionPlace[count];

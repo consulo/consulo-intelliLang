@@ -15,6 +15,8 @@
  */
 package org.intellij.plugins.intelliLang.inject;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.Language;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.extensions.ExtensionPointName;
@@ -31,8 +33,8 @@ import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 /**
  * @author Gregory.Shrago
@@ -47,10 +49,10 @@ public abstract class LanguageInjectionSupport {
   public static Key<LanguageInjectionSupport> SETTINGS_EDITOR = Key.create("SETTINGS_EDITOR");
 
   @NonNls
-  @NotNull
+  @Nonnull
   public abstract String getId();
 
-  @NotNull
+  @Nonnull
   public abstract Class[] getPatternClasses();
 
   public abstract boolean isApplicableTo(PsiLanguageInjectionHost host);
@@ -58,7 +60,7 @@ public abstract class LanguageInjectionSupport {
   public abstract boolean useDefaultInjector(PsiLanguageInjectionHost host);
 
   @Nullable
-  public abstract BaseInjection findCommentInjection(@NotNull PsiElement host, @Nullable Ref<PsiElement> commentRef);
+  public abstract BaseInjection findCommentInjection(@Nonnull PsiElement host, @Nullable Ref<PsiElement> commentRef);
 
   public abstract boolean addInjectionInPlace(final Language language, final PsiLanguageInjectionHost psiElement);
 

@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.Language;
 import com.intellij.lang.LanguageUtil;
 import com.intellij.util.ArrayUtil;
@@ -36,14 +36,14 @@ public final class InjectedLanguage {
   private final String mySuffix;
   private final boolean myDynamic;
 
-  private InjectedLanguage(@NotNull String id, @NotNull String prefix, @NotNull String suffix, boolean dynamic) {
+  private InjectedLanguage(@Nonnull String id, @Nonnull String prefix, @Nonnull String suffix, boolean dynamic) {
     myID = id;
     myPrefix = prefix;
     mySuffix = suffix;
     myDynamic = dynamic;
   }
 
-  @NotNull
+  @Nonnull
   public String getID() {
     return myID;
   }
@@ -53,12 +53,12 @@ public final class InjectedLanguage {
     return findLanguageById(myID);
   }
 
-  @NotNull
+  @Nonnull
   public String getPrefix() {
     return myPrefix;
   }
 
-  @NotNull
+  @Nonnull
   public String getSuffix() {
     return mySuffix;
   }
@@ -83,7 +83,7 @@ public final class InjectedLanguage {
     }
   }
 
-  @NotNull
+  @Nonnull
   public static String[] getAvailableLanguageIDs() {
     synchronized (InjectedLanguage.class) {
       if (ourLanguageCache == null || ourLanguageCount != Language.getRegisteredLanguages().size()) {
@@ -94,7 +94,7 @@ public final class InjectedLanguage {
     }
   }
 
-  @NotNull
+  @Nonnull
   public static Language[] getAvailableLanguages() {
     synchronized (InjectedLanguage.class) {
       if (ourLanguageCache == null || ourLanguageCount != Language.getRegisteredLanguages().size()) {

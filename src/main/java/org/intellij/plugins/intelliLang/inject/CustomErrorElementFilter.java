@@ -15,6 +15,9 @@
  */
 package org.intellij.plugins.intelliLang.inject;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.codeInsight.daemon.impl.HighlightInfo;
 import com.intellij.codeInsight.daemon.impl.HighlightInfoFilter;
 import com.intellij.codeInsight.highlighting.HighlightErrorFilter;
@@ -22,20 +25,18 @@ import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Gregory.Shrago
  */
 public class CustomErrorElementFilter extends HighlightErrorFilter implements HighlightInfoFilter {
 
-  public boolean shouldHighlightErrorElement(@NotNull PsiErrorElement element) {
+  public boolean shouldHighlightErrorElement(@Nonnull PsiErrorElement element) {
     return !isFrankenstein(element.getContainingFile());
   }
 
   @Override
-  public boolean accept(@NotNull HighlightInfo highlightInfo, @Nullable PsiFile file) {
+  public boolean accept(@Nonnull HighlightInfo highlightInfo, @Nullable PsiFile file) {
     if (highlightInfo.getSeverity() != HighlightSeverity.WARNING &&
         highlightInfo.getSeverity() != HighlightSeverity.WEAK_WARNING) return true;
     if (!isFrankenstein(file)) return true;

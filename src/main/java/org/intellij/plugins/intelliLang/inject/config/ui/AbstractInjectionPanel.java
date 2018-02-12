@@ -19,8 +19,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.editor.event.DocumentAdapter;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.project.Project;
@@ -35,13 +36,13 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 	private final List<Field> myOtherPanels = new ArrayList<Field>(3);
 	private final List<Runnable> myUpdaters = new ArrayList<Runnable>(1);
 
-	@NotNull
+	@Nonnull
 	private final Project myProject;
 
 	/**
 	 * The orignal item - must not be modified unless apply() is called.
 	 */
-	@NotNull
+	@Nonnull
 	private final T myOrigInjection;
 
 	/**
@@ -49,7 +50,7 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 	 */
 	private T myEditCopy;
 
-	protected AbstractInjectionPanel(@NotNull T injection, @NotNull Project project)
+	protected AbstractInjectionPanel(@Nonnull T injection, @Nonnull Project project)
 	{
 		myOrigInjection = injection;
 		myProject = project;
@@ -65,13 +66,13 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	public Project getProject()
 	{
 		return myProject;
 	}
 
-	@NotNull
+	@Nonnull
 	public T getOrigInjection()
 	{
 		return myOrigInjection;
@@ -86,7 +87,7 @@ public abstract class AbstractInjectionPanel<T extends BaseInjection> implements
 
 	@Override
 	@SuppressWarnings({"unchecked"})
-	public final void init(@NotNull T copy)
+	public final void init(@Nonnull T copy)
 	{
 		myEditCopy = copy;
 

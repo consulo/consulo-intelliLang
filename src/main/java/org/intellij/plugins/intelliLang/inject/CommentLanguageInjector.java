@@ -8,7 +8,7 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.util.ArrayUtil;
 import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class CommentLanguageInjector implements MultiHostInjector {
 
   private final LanguageInjectionSupport[] mySupports;
   private final LanguageInjectionSupport myInjectorSupport = new AbstractLanguageInjectionSupport() {
-    @NotNull
+    @Nonnull
     @Override
     public String getId() {
       return "comment";
@@ -31,7 +31,7 @@ public class CommentLanguageInjector implements MultiHostInjector {
       return true;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Class[] getPatternClasses() {
       return ArrayUtil.EMPTY_CLASS_ARRAY;
@@ -46,7 +46,7 @@ public class CommentLanguageInjector implements MultiHostInjector {
     mySupports = ArrayUtil.toObjectArray(supports, LanguageInjectionSupport.class);
   }
 
-  public void injectLanguages(@NotNull final MultiHostRegistrar registrar, @NotNull final PsiElement context) {
+  public void injectLanguages(@Nonnull final MultiHostRegistrar registrar, @Nonnull final PsiElement context) {
     if (!(context instanceof PsiLanguageInjectionHost) || context instanceof PsiComment) return;
     if (!((PsiLanguageInjectionHost)context).isValidHost()) return;
     PsiLanguageInjectionHost host = (PsiLanguageInjectionHost)context;

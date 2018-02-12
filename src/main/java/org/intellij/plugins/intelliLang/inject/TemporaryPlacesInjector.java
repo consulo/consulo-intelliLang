@@ -22,7 +22,7 @@ import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.Trinity;
 import com.intellij.psi.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +38,7 @@ public class TemporaryPlacesInjector implements MultiHostInjector {
   }
 
   @Override
-  public void injectLanguages(@NotNull final MultiHostRegistrar registrar, @NotNull final PsiElement context) {
+  public void injectLanguages(@Nonnull final MultiHostRegistrar registrar, @Nonnull final PsiElement context) {
     if (!(context instanceof PsiLanguageInjectionHost) || !((PsiLanguageInjectionHost)context).isValidHost()) return;
     PsiLanguageInjectionHost host = (PsiLanguageInjectionHost)context;
 

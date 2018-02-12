@@ -21,8 +21,8 @@ import com.intellij.openapi.ui.NamedConfigurable;
 import org.intellij.plugins.intelliLang.inject.config.Injection;
 import org.intellij.plugins.intelliLang.inject.config.ui.InjectionPanel;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 
 public abstract class InjectionConfigurable<T extends Injection, P extends InjectionPanel<T>> extends NamedConfigurable<T> {

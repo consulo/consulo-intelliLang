@@ -28,6 +28,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.*;
 
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -46,8 +47,8 @@ import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 import org.intellij.plugins.intelliLang.inject.config.InjectionPlace;
 import org.jdom.Document;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.DataManager;
 import com.intellij.ide.ui.SplitterProportionsDataImpl;
@@ -532,7 +533,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 		return myConfigurables;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getId()
 	{
@@ -790,7 +791,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 			new TableViewSpeedSearch<InjInfo>(this)
 			{
 				@Override
-				protected String getItemText(@NotNull InjInfo element)
+				protected String getItemText(@Nonnull InjInfo element)
 				{
 					final BaseInjection injection = element.injection;
 					return injection.getSupportId() + " " + injection.getInjectedLanguageId() + " " + injection.getDisplayName();

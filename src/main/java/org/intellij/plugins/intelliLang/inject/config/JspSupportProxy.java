@@ -16,17 +16,18 @@
 
 package org.intellij.plugins.intelliLang.inject.config;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.module.Module;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Proxy class that allows to avoid a hard compile time dependency on the XPathView plugin.
  */
 public abstract class JspSupportProxy {
 
-  @NotNull
+  @Nonnull
   public abstract String[] getPossibleTldUris(final Module module);
 
   private static JspSupportProxy ourInstance;

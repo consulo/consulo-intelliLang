@@ -38,8 +38,8 @@ import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 import org.intellij.plugins.intelliLang.inject.config.ui.BaseInjectionPanel;
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.swing.*;
 
@@ -59,11 +59,11 @@ public abstract class AbstractLanguageInjectionSupport extends LanguageInjection
 
   @Nullable
   @Override
-  public BaseInjection findCommentInjection(@NotNull PsiElement host, @Nullable Ref<PsiElement> commentRef) {
+  public BaseInjection findCommentInjection(@Nonnull PsiElement host, @Nullable Ref<PsiElement> commentRef) {
     return InjectorUtils.findCommentInjection(host, "comment", commentRef);
   }
 
-  public void getLanguagesToInject(@NotNull MultiHostRegistrar registrar, @NotNull PsiElement context) {
+  public void getLanguagesToInject(@Nonnull MultiHostRegistrar registrar, @Nonnull PsiElement context) {
   }
 
   public boolean addInjectionInPlace(final Language language, final PsiLanguageInjectionHost psiElement) {

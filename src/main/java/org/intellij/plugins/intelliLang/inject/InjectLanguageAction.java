@@ -54,8 +54,8 @@ import com.intellij.util.containers.ContainerUtil;
 import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.references.InjectedReferencesContributor;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -79,17 +79,17 @@ public class InjectLanguageAction implements IntentionAction {
     return list;
   }
 
-  @NotNull
+  @Nonnull
   public String getText() {
     return INJECT_LANGUAGE_FAMILY;
   }
 
-  @NotNull
+  @Nonnull
   public String getFamilyName() {
     return INJECT_LANGUAGE_FAMILY;
   }
 
-  public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
+  public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
     final PsiLanguageInjectionHost host = findInjectionHost(editor, file);
     if (host == null) return false;
     final List<Pair<PsiElement, TextRange>> injectedPsi = InjectedLanguageManager.getInstance(project).getInjectedPsiFiles(host);
@@ -108,7 +108,7 @@ public class InjectLanguageAction implements IntentionAction {
     return host.isValidHost()? host : null;
   }
 
-  public void invoke(@NotNull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
+  public void invoke(@Nonnull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
     doChooseLanguageToInject(editor, new Processor<Injectable>() {
       public boolean process(final Injectable injectable) {
         ApplicationManager.getApplication().runReadAction(new Runnable() {

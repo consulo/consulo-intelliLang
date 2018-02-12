@@ -31,8 +31,8 @@ import org.intellij.plugins.intelliLang.inject.InjectorUtils;
 import org.intellij.plugins.intelliLang.inject.LanguageInjectionSupport;
 import org.intellij.plugins.intelliLang.inject.TemporaryPlacesRegistry;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -59,9 +59,9 @@ public class InjectedReferencesContributor extends PsiReferenceContributor {
   @Override
   public void registerReferenceProviders(PsiReferenceRegistrar registrar) {
     registrar.registerReferenceProvider(PlatformPatterns.psiElement(), new PsiReferenceProvider() {
-      @NotNull
+      @Nonnull
       @Override
-      public PsiReference[] getReferencesByElement(@NotNull final PsiElement element, @NotNull final ProcessingContext context) {
+      public PsiReference[] getReferencesByElement(@Nonnull final PsiElement element, @Nonnull final ProcessingContext context) {
         ReferenceInjector[] extensions = ReferenceInjector.EXTENSION_POINT_NAME.getExtensions();
         final List<PsiReference> references = new SmartList<PsiReference>();
         Configuration configuration = Configuration.getProjectInstance(element.getProject());
@@ -95,7 +95,7 @@ public class InjectedReferencesContributor extends PsiReferenceContributor {
           else {
             InjectedLanguageUtil.enumerate(element, element.getContainingFile(), false, new InjectedReferenceVisitor() {
               @Override
-              public void visitInjectedReference(@NotNull ReferenceInjector injector, @NotNull List<PsiLanguageInjectionHost.Shred> places) {
+              public void visitInjectedReference(@Nonnull ReferenceInjector injector, @Nonnull List<PsiLanguageInjectionHost.Shred> places) {
                 injected.set(Boolean.TRUE);
                 element.putUserData(LanguageInjectionSupport.INJECTOR_SUPPORT, registry.getLanguageInjectionSupport());
                 for (PsiLanguageInjectionHost.Shred place : places) {

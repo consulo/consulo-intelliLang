@@ -20,7 +20,7 @@ import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiReference;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author Dmitry Avdeev
@@ -28,9 +28,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public class InjectedReferencesInspection extends LocalInspectionTool {
 
-  @NotNull
+  @Nonnull
   @Override
-  public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly) {
+  public PsiElementVisitor buildVisitor(@Nonnull final ProblemsHolder holder, boolean isOnTheFly) {
     return new PsiElementVisitor() {
       @Override
       public void visitElement(PsiElement element) {
