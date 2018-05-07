@@ -16,6 +16,13 @@
 
 package org.intellij.plugins.intelliLang.inject;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.intellij.plugins.intelliLang.Configuration;
+import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
+import org.intellij.plugins.intelliLang.inject.config.ui.BaseInjectionPanel;
+import org.jdom.Element;
 import com.intellij.lang.Language;
 import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -34,14 +41,8 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.ui.SimpleColoredText;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.Consumer;
-import org.intellij.plugins.intelliLang.Configuration;
-import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import org.intellij.plugins.intelliLang.inject.config.ui.BaseInjectionPanel;
-import org.jdom.Element;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import javax.swing.*;
+import consulo.awt.TargetAWT;
+import consulo.ui.image.Image;
 
 /**
  * @author Gregory.Shrago
@@ -114,8 +115,8 @@ public abstract class AbstractLanguageInjectionSupport extends LanguageInjection
   public static AnAction createDefaultAddAction(final Project project,
                                                 final Consumer<BaseInjection> consumer,
                                                 final AbstractLanguageInjectionSupport support) {
-    Icon icon = FileTypeManager.getInstance().getFileTypeByExtension(support.getId()).getIcon();
-    return new AnAction("Generic "+ StringUtil.capitalize(support.getId()), null, icon) {
+    Image icon = FileTypeManager.getInstance().getFileTypeByExtension(support.getId()).getIcon();
+    return new AnAction("Generic "+ StringUtil.capitalize(support.getId()), null, TargetAWT.to(icon)) {
       @Override
       public void actionPerformed(AnActionEvent e) {
         final BaseInjection injection = new BaseInjection(support.getId());

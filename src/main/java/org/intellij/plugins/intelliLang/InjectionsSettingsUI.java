@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.*;
 
 import javax.annotation.Nonnull;
-import javax.swing.Icon;
+import javax.annotation.Nullable;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -47,8 +47,6 @@ import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 import org.intellij.plugins.intelliLang.inject.config.InjectionPlace;
 import org.jdom.Document;
 import org.jetbrains.annotations.Nls;
-
-import javax.annotation.Nullable;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.DataManager;
 import com.intellij.ide.ui.SplitterProportionsDataImpl;
@@ -95,7 +93,9 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.Convertor;
 import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.ListTableModel;
+import consulo.awt.TargetAWT;
 import consulo.fileTypes.ArchiveFileType;
+import consulo.ui.image.Image;
 
 /**
  * @author Gregory.Shrago
@@ -278,7 +278,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 		group.add(editAction);
 
 		addAction.registerCustomShortcutSet(CommonShortcuts.INSERT, myInjectionsTable);
-		removeAction.registerCustomShortcutSet(CommonShortcuts.DELETE, myInjectionsTable);
+		removeAction.registerCustomShortcutSet(CommonShortcuts.getDelete(), myInjectionsTable);
 		editAction.registerCustomShortcutSet(CommonShortcuts.ENTER, myInjectionsTable);
 
 		group.addSeparator();
@@ -783,8 +783,8 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 					return true;
 				}
 			});
-			Icon icon = PlainTextFileType.INSTANCE.getIcon();
-			int preferred = (int) (new JLabel(maxName[0], icon, SwingConstants.LEFT).getPreferredSize().width * 1.1);
+			Image icon = PlainTextFileType.INSTANCE.getIcon();
+			int preferred = (int) (new JLabel(maxName[0], TargetAWT.to(icon), SwingConstants.LEFT).getPreferredSize().width * 1.1);
 			getColumnModel().getColumn(2).setMinWidth(preferred);
 			getColumnModel().getColumn(2).setPreferredWidth(preferred);
 			getColumnModel().getColumn(2).setMaxWidth(preferred);
@@ -983,7 +983,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 				final String languageId = injection.injection.getInjectedLanguageId();
 				final Language language = InjectedLanguage.findLanguageById(languageId);
 				final FileType fileType = language == null ? null : language.getAssociatedFileType();
-				myLabel.setIcon(fileType == null ? null : fileType.getIcon());
+				myLabel.setIcon(fileType == null ? null : TargetAWT.to(fileType.getIcon()));
 				myLabel.setText(language == null ? languageId : language.getDisplayName());
 				setLabelColors(myLabel, table, isSelected, row);
 				return myLabel;
