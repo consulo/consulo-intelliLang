@@ -31,8 +31,8 @@ import javax.swing.event.AncestorListener;
 import org.intellij.plugins.intelliLang.inject.InjectedLanguage;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 import com.intellij.lang.Language;
+import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.ex.util.LexerEditorHighlighter;
-import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.PlainSyntaxHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
@@ -116,13 +116,13 @@ public class LanguagePanel extends AbstractInjectionPanel<BaseInjection>
 
 	private void updateHighlighters()
 	{
-		final EditorImpl editor = ((EditorImpl) myPrefix.getEditor());
+		final EditorEx editor = ((EditorEx) myPrefix.getEditor());
 		if(editor == null)
 		{
 			return;
 		}
 
-		final EditorImpl editor2 = ((EditorImpl) mySuffix.getEditor());
+		final EditorEx editor2 = ((EditorEx) mySuffix.getEditor());
 		assert editor2 != null;
 
 		final Language language = InjectedLanguage.findLanguageById(getLanguage());
