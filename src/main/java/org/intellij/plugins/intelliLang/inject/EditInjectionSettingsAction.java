@@ -16,6 +16,11 @@
 
 package org.intellij.plugins.intelliLang.inject;
 
+import java.util.Collections;
+
+import javax.annotation.Nonnull;
+
+import org.intellij.plugins.intelliLang.InjectionsSettingsUI;
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.codeInsight.intention.LowPriorityAction;
 import com.intellij.lang.injection.InjectedLanguageManager;
@@ -29,11 +34,6 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
 import com.intellij.util.FileContentUtil;
 import com.intellij.util.IncorrectOperationException;
-import org.intellij.plugins.intelliLang.Configuration;
-import org.intellij.plugins.intelliLang.InjectionsSettingsUI;
-import javax.annotation.Nonnull;
-
-import java.util.Collections;
 
 /**
  * @author Gregory.Shrago
@@ -76,7 +76,7 @@ public class EditInjectionSettingsAction implements IntentionAction, LowPriority
     if (support == null) return;
     try {
       if (!support.editInjectionInPlace(host)) {
-        ShowSettingsUtil.getInstance().editConfigurable(project, new InjectionsSettingsUI(project, Configuration.getProjectInstance(project)));
+        ShowSettingsUtil.getInstance().editConfigurable(project, new InjectionsSettingsUI(project));
       }
     }
     finally {

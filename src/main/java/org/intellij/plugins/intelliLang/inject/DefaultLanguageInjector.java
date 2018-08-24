@@ -16,21 +16,22 @@
 
 package org.intellij.plugins.intelliLang.inject;
 
+import javax.annotation.Nonnull;
+
+import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 import com.intellij.lang.injection.MultiHostInjector;
 import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.util.ArrayUtil;
-import org.intellij.plugins.intelliLang.Configuration;
-import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import javax.annotation.Nonnull;
+import consulo.psi.injection.impl.ProjectInjectionConfiguration;
 
 public final class DefaultLanguageInjector implements MultiHostInjector {
 
-  private final Configuration myInjectionConfiguration;
+  private final ProjectInjectionConfiguration myInjectionConfiguration;
   private final LanguageInjectionSupport[] mySupports;
 
-  public DefaultLanguageInjector(Configuration configuration) {
+  public DefaultLanguageInjector(ProjectInjectionConfiguration configuration) {
     myInjectionConfiguration = configuration;
     mySupports = ArrayUtil.toObjectArray(InjectorUtils.getActiveInjectionSupports(), LanguageInjectionSupport.class);
   }

@@ -30,6 +30,7 @@ import java.util.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -52,6 +53,7 @@ import com.intellij.ide.DataManager;
 import com.intellij.ide.ui.SplitterProportionsDataImpl;
 import com.intellij.lang.Language;
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
@@ -95,6 +97,7 @@ import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.ListTableModel;
 import consulo.awt.TargetAWT;
 import consulo.fileTypes.ArchiveFileType;
+import consulo.psi.injection.impl.ProjectInjectionConfiguration;
 import consulo.ui.image.Image;
 
 /**
@@ -102,6 +105,7 @@ import consulo.ui.image.Image;
  */
 public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Configurable.NoScroll
 {
+	private static final Logger LOG = Logger.getInstance(InjectionsSettingsUI.class);
 
 	private final Project myProject;
 	private final CfgInfo[] myInfos;
@@ -117,19 +121,20 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 	private Configurable[] myConfigurables;
 	private Configuration myConfiguration;
 
+	@Inject
 	public InjectionsSettingsUI(final Project project)
 	{
 		this(project, Configuration.getProjectInstance(project));
 	}
 
-	public InjectionsSettingsUI(final Project project, final Configuration configuration)
+	protected InjectionsSettingsUI(final Project project, final Configuration configuration)
 	{
 		myProject = project;
 		myConfiguration = configuration;
 
 		final CfgInfo currentInfo = new CfgInfo(configuration, "project");
-		myInfos = configuration instanceof Configuration.Prj ? new CfgInfo[]{
-				new CfgInfo(((Configuration.Prj) configuration).getParentConfiguration(), "global"),
+		myInfos = configuration instanceof ProjectInjectionConfiguration ? new CfgInfo[]{
+				new CfgInfo(((ProjectInjectionConfiguration) configuration).getParentConfiguration(), "global"),
 				currentInfo
 		} : new CfgInfo[]{currentInfo};
 
@@ -697,13 +702,13 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 
 		JBPopupFactory.getInstance().createActionGroupPopup(null, group, e.getDataContext(), JBPopupFactory.ActionSelectionAid.NUMBERING, true,
 				new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				updateCountLabel();
-			}
-		}, -1).showUnderneathOf(myToolbar.getComponent());
+				{
+					@Override
+					public void run()
+					{
+						updateCountLabel();
+					}
+				}, -1).showUnderneathOf(myToolbar.getComponent());
 	}
 
 	@Override
@@ -1158,7 +1163,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 		}
 		catch(Exception ex)
 		{
-			Configuration.LOG.error(ex);
+			LOG.error(ex);
 
 			final String msg = ex.getLocalizedMessage();
 			Messages.showErrorDialog(myProject, msg != null && msg.length() > 0 ? msg : ex.toString(), "Import Failed");
@@ -1184,8 +1189,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 				@Override
 				public Collection<? extends BaseInjection> fun(final String s)
 				{
-					return ContainerUtil.findAll(CfgInfo.this.cfg instanceof Configuration.Prj ? ((Configuration.Prj) CfgInfo.this.cfg)
-							.getOwnInjections(s) : CfgInfo.this.cfg.getInjections(s), new Condition<BaseInjection>()
+					return ContainerUtil.findAll(CfgInfo.this.cfg instanceof ProjectInjectionConfiguration ? ((ProjectInjectionConfiguration) CfgInfo.this.cfg).getOwnInjections(s) : CfgInfo.this.cfg.getInjections(s), new Condition<BaseInjection>()
 					{
 						@Override
 						public boolean value(final BaseInjection injection)

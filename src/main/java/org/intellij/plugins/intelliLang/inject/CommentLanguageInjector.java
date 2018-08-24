@@ -1,17 +1,17 @@
 package org.intellij.plugins.intelliLang.inject;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 import com.intellij.lang.injection.MultiHostInjector;
 import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.util.ArrayUtil;
-import org.intellij.plugins.intelliLang.Configuration;
-import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import javax.annotation.Nonnull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author gregsh
@@ -39,8 +39,7 @@ public class CommentLanguageInjector implements MultiHostInjector {
   };
 
 
-  /** @noinspection UnusedParameters*/
-  public CommentLanguageInjector(Configuration configuration) {
+  public CommentLanguageInjector() {
     List<LanguageInjectionSupport> supports = new ArrayList<LanguageInjectionSupport>(InjectorUtils.getActiveInjectionSupports());
     supports.add(myInjectorSupport);
     mySupports = ArrayUtil.toObjectArray(supports, LanguageInjectionSupport.class);

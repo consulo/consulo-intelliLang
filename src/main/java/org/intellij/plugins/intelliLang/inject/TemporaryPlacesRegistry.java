@@ -16,26 +16,33 @@
 
 package org.intellij.plugins.intelliLang.inject;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Singleton;
+
+import org.intellij.plugins.intelliLang.Configuration;
 import com.intellij.codeInsight.completion.CompletionUtilCoreImpl;
 import com.intellij.lang.Language;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Condition;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiLanguageInjectionHost;
+import com.intellij.psi.SmartPointerManager;
+import com.intellij.psi.SmartPsiElementPointer;
 import com.intellij.psi.util.PsiModificationTracker;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.PairProcessor;
 import com.intellij.util.containers.ContainerUtil;
-import org.intellij.plugins.intelliLang.Configuration;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Gregory.Shrago
  */
+@Singleton
 public class TemporaryPlacesRegistry {
   private final Project myProject;
   private final List<TempPlace> myTempPlaces = ContainerUtil.createLockFreeCopyOnWriteList();

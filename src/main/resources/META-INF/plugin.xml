@@ -40,10 +40,10 @@
 
 		<projectService serviceInterface="org.intellij.plugins.intelliLang.inject.TemporaryPlacesRegistry"
 						serviceImplementation="org.intellij.plugins.intelliLang.inject.TemporaryPlacesRegistry"/>
-		<applicationService serviceInterface="org.intellij.plugins.intelliLang.Configuration"
-							serviceImplementation="org.intellij.plugins.intelliLang.Configuration$App"/>
-		<projectService serviceInterface="org.intellij.plugins.intelliLang.Configuration"
-						serviceImplementation="org.intellij.plugins.intelliLang.Configuration$Prj"/>
+
+		<applicationService serviceImplementation="consulo.psi.injection.impl.ApplicationInjectionConfiguration"/>
+
+		<projectService serviceImplementation="consulo.psi.injection.impl.ProjectInjectionConfiguration"/>
 
 		<psi.referenceContributor implementation="org.intellij.plugins.intelliLang.references.InjectedReferencesContributor"/>
 		<referenceInjector implementation="org.intellij.plugins.intelliLang.references.FileReferenceInjector"/>
