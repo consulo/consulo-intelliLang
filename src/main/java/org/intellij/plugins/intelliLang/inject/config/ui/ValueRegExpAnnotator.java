@@ -16,12 +16,10 @@
 package org.intellij.plugins.intelliLang.inject.config.ui;
 
 import org.intellij.lang.regexp.RegExpFile;
-import org.intellij.lang.regexp.RegExpLanguage;
 import org.intellij.lang.regexp.psi.RegExpBranch;
 import org.intellij.lang.regexp.psi.RegExpGroup;
 import org.intellij.lang.regexp.psi.RegExpPattern;
 import org.intellij.lang.regexp.psi.RegExpRecursiveElementVisitor;
-import com.intellij.lang.LanguageAnnotators;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.openapi.util.Key;
@@ -33,14 +31,6 @@ import com.intellij.psi.PsiElement;
  */
 public class ValueRegExpAnnotator implements Annotator {
   public static final Key<Boolean> KEY = Key.create("IS_VALUE_REGEXP");
-
-  static {
-    // inject annotator one the class is referenced
-    LanguageAnnotators.INSTANCE.addExplicitExtension(RegExpLanguage.INSTANCE, new ValueRegExpAnnotator());
-  }
-
-  public ValueRegExpAnnotator() {
-  }
 
   public void annotate(PsiElement psiElement, AnnotationHolder holder) {
     if (psiElement instanceof RegExpFile && psiElement.getCopyableUserData(KEY) == Boolean.TRUE) {

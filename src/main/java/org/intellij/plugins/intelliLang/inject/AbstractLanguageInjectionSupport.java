@@ -41,7 +41,6 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.ui.SimpleColoredText;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.Consumer;
-import consulo.awt.TargetAWT;
 import consulo.ui.image.Image;
 
 /**
@@ -116,7 +115,7 @@ public abstract class AbstractLanguageInjectionSupport extends LanguageInjection
                                                 final Consumer<BaseInjection> consumer,
                                                 final AbstractLanguageInjectionSupport support) {
     Image icon = FileTypeManager.getInstance().getFileTypeByExtension(support.getId()).getIcon();
-    return new AnAction("Generic "+ StringUtil.capitalize(support.getId()), null, TargetAWT.to(icon)) {
+    return new AnAction("Generic "+ StringUtil.capitalize(support.getId()), null, icon) {
       @Override
       public void actionPerformed(AnActionEvent e) {
         final BaseInjection injection = new BaseInjection(support.getId());

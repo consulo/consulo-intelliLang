@@ -15,28 +15,35 @@
  */
 package org.intellij.plugins.intelliLang.references;
 
-import com.intellij.openapi.util.Key;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.patterns.PlatformPatterns;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
-import com.intellij.psi.impl.source.tree.injected.InjectedReferenceVisitor;
-import com.intellij.psi.injection.ReferenceInjector;
-import com.intellij.util.ProcessingContext;
-import com.intellij.util.SmartList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.inject.InjectedLanguage;
 import org.intellij.plugins.intelliLang.inject.InjectorUtils;
 import org.intellij.plugins.intelliLang.inject.LanguageInjectionSupport;
 import org.intellij.plugins.intelliLang.inject.TemporaryPlacesRegistry;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import com.intellij.openapi.util.Key;
+import com.intellij.openapi.util.Ref;
+import com.intellij.openapi.util.TextRange;
+import com.intellij.patterns.PlatformPatterns;
+import com.intellij.psi.ElementManipulators;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiLanguageInjectionHost;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.PsiReferenceContributor;
+import com.intellij.psi.PsiReferenceProvider;
+import com.intellij.psi.PsiReferenceRegistrar;
+import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
+import com.intellij.psi.impl.source.tree.injected.InjectedReferenceVisitor;
+import com.intellij.psi.injection.ReferenceInjector;
+import com.intellij.util.ProcessingContext;
+import com.intellij.util.SmartList;
 
 /**
  * @author Dmitry Avdeev
@@ -62,7 +69,7 @@ public class InjectedReferencesContributor extends PsiReferenceContributor {
       @Nonnull
       @Override
       public PsiReference[] getReferencesByElement(@Nonnull final PsiElement element, @Nonnull final ProcessingContext context) {
-        ReferenceInjector[] extensions = ReferenceInjector.EXTENSION_POINT_NAME.getExtensions();
+        List<ReferenceInjector> extensions = ReferenceInjector.EXTENSION_POINT_NAME.getExtensionList();
         final List<PsiReference> references = new SmartList<PsiReference>();
         Configuration configuration = Configuration.getProjectInstance(element.getProject());
         final Ref<Boolean> injected = new Ref<Boolean>(Boolean.FALSE);

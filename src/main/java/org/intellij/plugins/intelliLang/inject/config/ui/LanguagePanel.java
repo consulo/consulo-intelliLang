@@ -42,7 +42,6 @@ import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.SimpleTextAttributes;
-import consulo.awt.TargetAWT;
 
 public class LanguagePanel extends AbstractInjectionPanel<BaseInjection>
 {
@@ -75,7 +74,7 @@ public class LanguagePanel extends AbstractInjectionPanel<BaseInjection>
 					final FileType fileType = language.getAssociatedFileType();
 					if(fileType != null)
 					{
-						setIcon(TargetAWT.to(fileType.getIcon()));
+						setIcon(fileType.getIcon());
 						append(" ", SimpleTextAttributes.REGULAR_ATTRIBUTES);
 						append("(" + fileType.getDescription() + ")", SimpleTextAttributes.GRAYED_ATTRIBUTES);
 					}
