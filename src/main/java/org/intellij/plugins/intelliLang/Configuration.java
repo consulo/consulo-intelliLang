@@ -43,6 +43,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jetbrains.annotations.NonNls;
+import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.lang.Language;
 import com.intellij.openapi.command.UndoConfirmationPolicy;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -52,8 +53,6 @@ import com.intellij.openapi.command.undo.UndoableAction;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.extensions.Extensions;
-import com.intellij.openapi.extensions.PluginDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Condition;
@@ -244,9 +243,9 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
 	{
 		final ArrayList<Configuration> cfgList = new ArrayList<>();
 		final THashSet<Object> visited = new THashSet<>();
-		for(LanguageInjectionConfigBean configBean : Extensions.getExtensions(LanguageInjectionSupport.CONFIG_EP_NAME))
+		for(LanguageInjectionConfigBean configBean : LanguageInjectionSupport.CONFIG_EP_NAME.getExtensionList())
 		{
-			PluginDescriptor descriptor = configBean.getPluginDescriptor();
+			IdeaPluginDescriptor descriptor = configBean.getPluginDescriptor();
 			final ClassLoader loader = descriptor.getPluginClassLoader();
 			try
 			{

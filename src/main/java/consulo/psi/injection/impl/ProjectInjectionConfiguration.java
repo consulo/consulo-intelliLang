@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.intellij.plugins.intelliLang.Configuration;
@@ -40,7 +41,8 @@ public class ProjectInjectionConfiguration extends Configuration
 {
 	private final Configuration myParentConfiguration;
 
-	ProjectInjectionConfiguration()
+	@Inject
+	public ProjectInjectionConfiguration()
 	{
 		myParentConfiguration = getInstance();
 	}

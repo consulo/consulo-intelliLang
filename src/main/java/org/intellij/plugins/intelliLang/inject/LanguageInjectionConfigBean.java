@@ -16,7 +16,6 @@
 package org.intellij.plugins.intelliLang.inject;
 
 import com.intellij.openapi.extensions.AbstractExtensionPointBean;
-import com.intellij.openapi.extensions.PluginDescriptor;
 import com.intellij.util.xmlb.annotations.Attribute;
 
 /**
@@ -29,6 +28,5 @@ public class LanguageInjectionConfigBean extends AbstractExtensionPointBean {
   public String getConfigUrl() {
     return myConfigUrl;
   }
-
 }
 
