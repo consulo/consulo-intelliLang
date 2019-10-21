@@ -74,7 +74,7 @@ public class InjectLanguageAction implements IntentionAction {
     for (Language language : languages) {
       list.add(Injectable.fromLanguage(language));
     }
-    list.addAll(Arrays.asList(ReferenceInjector.EXTENSION_POINT_NAME.getExtensions()));
+    list.addAll(ReferenceInjector.EXTENSION_POINT_NAME.getExtensionList());
     Collections.sort(list);
     return list;
   }

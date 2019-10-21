@@ -15,34 +15,6 @@
  */
 package org.intellij.plugins.intelliLang;
 
-import gnu.trove.THashMap;
-import gnu.trove.THashSet;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.intellij.plugins.intelliLang.inject.InjectorUtils;
-import org.intellij.plugins.intelliLang.inject.LanguageInjectionConfigBean;
-import org.intellij.plugins.intelliLang.inject.LanguageInjectionSupport;
-import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import org.intellij.plugins.intelliLang.inject.config.InjectionPlace;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jetbrains.annotations.NonNls;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.lang.Language;
 import com.intellij.openapi.command.UndoConfirmationPolicy;
@@ -54,13 +26,7 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.JDOMExternalizerUtil;
-import com.intellij.openapi.util.JDOMUtil;
-import com.intellij.openapi.util.ModificationTracker;
-import com.intellij.openapi.util.MultiValuesMap;
-import com.intellij.openapi.util.Pair;
+import com.intellij.openapi.util.*;
 import com.intellij.psi.PsiCompiledElement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -68,18 +34,31 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.psi.util.CachedValue;
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.PsiUtilCore;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.CachedValueImpl;
-import com.intellij.util.FileContentUtil;
-import com.intellij.util.Function;
-import com.intellij.util.NullableFunction;
-import com.intellij.util.PairProcessor;
+import com.intellij.util.*;
 import com.intellij.util.containers.ConcurrentFactoryMap;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.Convertor;
 import com.intellij.util.containers.MultiMap;
 import consulo.psi.injection.impl.ApplicationInjectionConfiguration;
 import consulo.psi.injection.impl.ProjectInjectionConfiguration;
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
+import org.intellij.plugins.intelliLang.inject.InjectorUtils;
+import org.intellij.plugins.intelliLang.inject.LanguageInjectionConfigBean;
+import org.intellij.plugins.intelliLang.inject.LanguageInjectionSupport;
+import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
+import org.intellij.plugins.intelliLang.inject.config.InjectionPlace;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Configuration that holds configured xml tag, attribute and method parameter
@@ -145,14 +124,7 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
 	@NonNls
 	private static final String SOURCE_MODIFICATION_ALLOWED = "SOURCE_MODIFICATION_ALLOWED";
 
-	private final Map<String, List<BaseInjection>> myInjections = new ConcurrentFactoryMap<String, List<BaseInjection>>()
-	{
-		@Override
-		protected List<BaseInjection> create(final String key)
-		{
-			return ContainerUtil.createLockFreeCopyOnWriteList();
-		}
-	};
+	private final Map<String, List<BaseInjection>> myInjections = ConcurrentFactoryMap.createMap(it -> ContainerUtil.createLockFreeCopyOnWriteList());
 
 	public Collection<BaseInjection> getAllInjections()
 	{

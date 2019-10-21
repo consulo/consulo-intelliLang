@@ -16,20 +16,19 @@
 
 package consulo.psi.injection.impl;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import org.intellij.plugins.intelliLang.Configuration;
-import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.util.containers.ContainerUtil;
+import org.intellij.plugins.intelliLang.Configuration;
+import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
+
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author VISTALL
@@ -91,9 +90,7 @@ public class ProjectInjectionConfiguration extends Configuration
 	}
 
 	@Override
-	public boolean replaceInjections(List<? extends BaseInjection> newInjections,
-									 List<? extends BaseInjection> originalInjections,
-									 boolean forceLevel)
+	public boolean replaceInjections(List<? extends BaseInjection> newInjections, List<? extends BaseInjection> originalInjections, boolean forceLevel)
 	{
 		if(!forceLevel && !originalInjections.isEmpty())
 		{

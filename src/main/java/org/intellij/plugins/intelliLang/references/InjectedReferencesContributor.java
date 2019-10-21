@@ -15,35 +15,28 @@
  */
 package org.intellij.plugins.intelliLang.references;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import com.intellij.openapi.util.Key;
+import com.intellij.openapi.util.Ref;
+import com.intellij.openapi.util.TextRange;
+import com.intellij.patterns.PlatformPatterns;
+import com.intellij.psi.*;
+import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
+import com.intellij.psi.impl.source.tree.injected.InjectedReferenceVisitor;
+import com.intellij.psi.injection.ReferenceInjector;
+import com.intellij.util.ProcessingContext;
+import com.intellij.util.SmartList;
 import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.inject.InjectedLanguage;
 import org.intellij.plugins.intelliLang.inject.InjectorUtils;
 import org.intellij.plugins.intelliLang.inject.LanguageInjectionSupport;
 import org.intellij.plugins.intelliLang.inject.TemporaryPlacesRegistry;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import com.intellij.openapi.util.Key;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.patterns.PlatformPatterns;
-import com.intellij.psi.ElementManipulators;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiLanguageInjectionHost;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.PsiReferenceContributor;
-import com.intellij.psi.PsiReferenceProvider;
-import com.intellij.psi.PsiReferenceRegistrar;
-import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
-import com.intellij.psi.impl.source.tree.injected.InjectedReferenceVisitor;
-import com.intellij.psi.injection.ReferenceInjector;
-import com.intellij.util.ProcessingContext;
-import com.intellij.util.SmartList;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Dmitry Avdeev
@@ -102,7 +95,7 @@ public class InjectedReferencesContributor extends PsiReferenceContributor {
           else {
             InjectedLanguageUtil.enumerate(element, element.getContainingFile(), false, new InjectedReferenceVisitor() {
               @Override
-              public void visitInjectedReference(@Nonnull ReferenceInjector injector, @Nonnull List<PsiLanguageInjectionHost.Shred> places) {
+              public void visitInjectedReference(@Nonnull ReferenceInjector injector, @Nonnull List<? extends PsiLanguageInjectionHost.Shred> places) {
                 injected.set(Boolean.TRUE);
                 element.putUserData(LanguageInjectionSupport.INJECTOR_SUPPORT, registry.getLanguageInjectionSupport());
                 for (PsiLanguageInjectionHost.Shred place : places) {

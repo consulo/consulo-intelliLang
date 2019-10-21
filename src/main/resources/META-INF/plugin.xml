@@ -1,4 +1,4 @@
-<idea-plugin>
+<consulo-plugin>
 	<name>IntelliLang</name>
 	<id>org.intellij.intelliLang</id>
 	<vendor>JetBrains</vendor>
@@ -53,4 +53,4 @@
 						 enabledByDefault="true" level="ERROR"
 						 displayName="Injected References" groupBundle="messages.InspectionsBundle" groupKey="inspection.general.tools.group.name"/>
 	</extensions>
-</idea-plugin>
+</consulo-plugin>
