@@ -19,6 +19,7 @@ package org.intellij.plugins.intelliLang.inject;
 import com.intellij.lang.Language;
 import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.openapi.extensions.Extensions;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.TextRange;
@@ -32,6 +33,7 @@ import com.intellij.util.NullableFunction;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.SmartList;
 import com.intellij.util.containers.ContainerUtil;
+import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 
 import javax.annotation.Nonnull;
@@ -254,6 +256,12 @@ public class InjectorUtils
 	public static <T> void putInjectedFileUserData(@Nonnull PsiElement element, @Nonnull Language language, @Nonnull Key<T> key, @Nullable T value)
 	{
 		InjectedLanguageUtil.putInjectedFileUserData(element, language, key, value);
+	}
+
+	@SuppressWarnings("UnusedParameters")
+	public static Configuration getEditableInstance(Project project)
+	{
+		return Configuration.getInstance();
 	}
 
 	/**
