@@ -18,7 +18,6 @@ package org.intellij.plugins.intelliLang.inject;
 
 import com.intellij.lang.Language;
 import com.intellij.lang.injection.MultiHostRegistrar;
-import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.Ref;
@@ -33,6 +32,7 @@ import com.intellij.util.NullableFunction;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.SmartList;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.psi.injection.LanguageSupportCache;
 import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 
@@ -131,32 +131,21 @@ public class InjectorUtils
 		}
 	}
 
-	private static final Map<String, LanguageInjectionSupport> ourSupports;
-
-	static
-	{
-		ourSupports = new LinkedHashMap<String, LanguageInjectionSupport>();
-		for(LanguageInjectionSupport support : Arrays.asList(Extensions.getExtensions(LanguageInjectionSupport.EP_NAME)))
-		{
-			ourSupports.put(support.getId(), support);
-		}
-	}
-
 	@Nonnull
 	public static Collection<String> getActiveInjectionSupportIds()
 	{
-		return ourSupports.keySet();
+		return LanguageSupportCache.getInstance().getAllSupportIds();
 	}
 
 	public static Collection<LanguageInjectionSupport> getActiveInjectionSupports()
 	{
-		return ourSupports.values();
+		return LanguageSupportCache.getInstance().getAllSupports();
 	}
 
 	@Nullable
 	public static LanguageInjectionSupport findInjectionSupport(final String id)
 	{
-		return ourSupports.get(id);
+		return LanguageSupportCache.getInstance().getSupport(id);
 	}
 
 	@Nonnull

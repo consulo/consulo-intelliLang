@@ -26,6 +26,8 @@
 			<category>Language Injection</category>
 		</intentionAction>
 
+		<applicationService serviceImplementation="consulo.psi.injection.LanguageSupportCache" />
+
 		<highlightErrorFilter implementation="org.intellij.plugins.intelliLang.inject.CustomErrorElementFilter"/>
 
 		<projectConfigurable displayName="Language Injections" parentId="editor" instance="org.intellij.plugins.intelliLang.InjectionsSettingsUI" nonDefaultProject="true"/>
