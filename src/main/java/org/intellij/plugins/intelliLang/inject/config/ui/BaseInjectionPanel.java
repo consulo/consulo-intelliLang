@@ -75,13 +75,8 @@ public class BaseInjectionPanel extends AbstractInjectionPanel<BaseInjection>
 				ex.setHorizontalScrollbarVisible(true);
 				return ex;
 			}
-
-			@Override
-			protected boolean isOneLineMode()
-			{
-				return false;
-			}
 		};
+		myTextArea.setOneLineMode(false);
 		myCenterPanel.add(myTextArea, BorderLayout.CENTER);
 		myTextArea.setFontInheritedFromLAF(false);
 		//myTextArea.setFont(EditorColorsManager.getInstance().getGlobalScheme().getFont(EditorFontType.PLAIN));
