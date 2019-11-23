@@ -15,7 +15,6 @@
  */
 package org.intellij.plugins.intelliLang;
 
-import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.lang.Language;
 import com.intellij.openapi.command.UndoConfirmationPolicy;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -39,6 +38,7 @@ import com.intellij.util.containers.ConcurrentFactoryMap;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.Convertor;
 import com.intellij.util.containers.MultiMap;
+import consulo.container.plugin.PluginDescriptor;
 import consulo.psi.injection.impl.ApplicationInjectionConfiguration;
 import consulo.psi.injection.impl.ProjectInjectionConfiguration;
 import gnu.trove.THashMap;
@@ -217,7 +217,7 @@ public class Configuration implements PersistentStateComponent<Element>, Modific
 		final THashSet<Object> visited = new THashSet<>();
 		for(LanguageInjectionConfigBean configBean : LanguageInjectionSupport.CONFIG_EP_NAME.getExtensionList())
 		{
-			IdeaPluginDescriptor descriptor = configBean.getPluginDescriptor();
+			PluginDescriptor descriptor = configBean.getPluginDescriptor();
 			final ClassLoader loader = descriptor.getPluginClassLoader();
 			try
 			{
