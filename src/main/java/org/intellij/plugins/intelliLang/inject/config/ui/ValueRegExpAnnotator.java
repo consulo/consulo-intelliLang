@@ -15,15 +15,15 @@
  */
 package org.intellij.plugins.intelliLang.inject.config.ui;
 
+import com.intellij.lang.annotation.AnnotationHolder;
+import com.intellij.lang.annotation.Annotator;
+import com.intellij.psi.PsiElement;
+import consulo.util.dataholder.Key;
 import org.intellij.lang.regexp.RegExpFile;
 import org.intellij.lang.regexp.psi.RegExpBranch;
 import org.intellij.lang.regexp.psi.RegExpGroup;
 import org.intellij.lang.regexp.psi.RegExpPattern;
 import org.intellij.lang.regexp.psi.RegExpRecursiveElementVisitor;
-import com.intellij.lang.annotation.AnnotationHolder;
-import com.intellij.lang.annotation.Annotator;
-import com.intellij.openapi.util.Key;
-import com.intellij.psi.PsiElement;
 
 /**
  * Annotator that is used to validate the "Value-Pattern" textfield: The regex entered there should contain exactly
