@@ -16,38 +16,6 @@
 
 package org.intellij.plugins.intelliLang;
 
-import gnu.trove.THashMap;
-import gnu.trove.THashSet;
-import gnu.trove.TObjectHashingStrategy;
-
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.util.*;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
-import javax.swing.table.TableCellRenderer;
-
-import org.intellij.plugins.intelliLang.inject.AbstractLanguageInjectionSupport;
-import org.intellij.plugins.intelliLang.inject.InjectedLanguage;
-import org.intellij.plugins.intelliLang.inject.InjectorUtils;
-import org.intellij.plugins.intelliLang.inject.LanguageInjectionSupport;
-import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
-import org.intellij.plugins.intelliLang.inject.config.InjectionPlace;
-import org.jdom.Document;
-import org.jetbrains.annotations.Nls;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.DataManager;
 import com.intellij.ide.ui.SplitterProportionsDataImpl;
@@ -66,31 +34,13 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.SplitterProportionsData;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.Factory;
-import com.intellij.openapi.util.JDOMUtil;
-import com.intellij.openapi.util.NullableFactory;
+import com.intellij.openapi.util.*;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWrapper;
-import com.intellij.ui.BooleanTableCellRenderer;
-import com.intellij.ui.DoubleClickListener;
-import com.intellij.ui.ScrollPaneFactory;
-import com.intellij.ui.SimpleColoredComponent;
-import com.intellij.ui.SimpleColoredText;
-import com.intellij.ui.SimpleTextAttributes;
-import com.intellij.ui.TableUtil;
-import com.intellij.ui.TableViewSpeedSearch;
+import com.intellij.ui.*;
 import com.intellij.ui.table.TableView;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.Consumer;
-import com.intellij.util.FileContentUtil;
-import com.intellij.util.Function;
-import com.intellij.util.IconUtil;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.PlatformIcons;
-import com.intellij.util.Processor;
+import com.intellij.util.*;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.Convertor;
 import com.intellij.util.ui.ColumnInfo;
@@ -99,6 +49,30 @@ import consulo.awt.TargetAWT;
 import consulo.fileTypes.ArchiveFileType;
 import consulo.psi.injection.impl.ProjectInjectionConfiguration;
 import consulo.ui.image.Image;
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
+import gnu.trove.TObjectHashingStrategy;
+import org.intellij.plugins.intelliLang.inject.AbstractLanguageInjectionSupport;
+import org.intellij.plugins.intelliLang.inject.InjectedLanguage;
+import org.intellij.plugins.intelliLang.inject.InjectorUtils;
+import org.intellij.plugins.intelliLang.inject.LanguageInjectionSupport;
+import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
+import org.intellij.plugins.intelliLang.inject.config.InjectionPlace;
+import org.jdom.Document;
+import org.jetbrains.annotations.Nls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.util.List;
+import java.util.*;
 
 /**
  * @author Gregory.Shrago
@@ -210,7 +184,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 				performAdd(e);
 			}
 		};
-		final AnAction removeAction = new AnAction("Remove", "Remove", PlatformIcons.DELETE_ICON)
+		final AnAction removeAction = new AnAction("Remove", "Remove", IconUtil.getRemoveIcon())
 		{
 			@Override
 			public void update(final AnActionEvent e)
@@ -234,7 +208,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 			}
 		};
 
-		final AnAction editAction = new AnAction("Edit", "Edit", PlatformIcons.PROPERTIES_ICON)
+		final AnAction editAction = new AnAction("Edit", "Edit", AllIcons.Actions.Properties)
 		{
 			@Override
 			public void update(final AnActionEvent e)
@@ -253,7 +227,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 				performEditAction(e);
 			}
 		};
-		final AnAction copyAction = new AnAction("Duplicate", "Duplicate", PlatformIcons.COPY_ICON)
+		final AnAction copyAction = new AnAction("Duplicate", "Duplicate", AllIcons.Actions.Copy)
 		{
 			@Override
 			public void update(final AnActionEvent e)
@@ -287,7 +261,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 		editAction.registerCustomShortcutSet(CommonShortcuts.ENTER, myInjectionsTable);
 
 		group.addSeparator();
-		group.add(new AnAction("Enable Selected Injections", "Enable Selected Injections", PlatformIcons.SELECT_ALL_ICON)
+		group.add(new AnAction("Enable Selected Injections", "Enable Selected Injections", AllIcons.Actions.Selectall)
 		{
 			@Override
 			public void actionPerformed(final AnActionEvent e)
@@ -295,7 +269,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 				performSelectedInjectionsEnabled(true);
 			}
 		});
-		group.add(new AnAction("Disable Selected Injections", "Disable Selected Injections", PlatformIcons.UNSELECT_ALL_ICON)
+		group.add(new AnAction("Disable Selected Injections", "Disable Selected Injections", AllIcons.Actions.Unselectall)
 		{
 			@Override
 			public void actionPerformed(final AnActionEvent e)
@@ -316,7 +290,7 @@ public class InjectionsSettingsUI implements SearchableConfigurable.Parent, Conf
 		if(myInfos.length > 1)
 		{
 			group.addSeparator();
-			final AnAction shareAction = new AnAction("Make Global", null, PlatformIcons.IMPORT_ICON)
+			final AnAction shareAction = new AnAction("Make Global", null, AllIcons.ToolbarDecorator.Import)
 			{
 				@Override
 				public void actionPerformed(final AnActionEvent e)
