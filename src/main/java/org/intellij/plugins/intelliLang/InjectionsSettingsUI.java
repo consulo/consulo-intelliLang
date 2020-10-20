@@ -63,7 +63,7 @@ import org.jetbrains.annotations.Nls;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;

@@ -21,7 +21,7 @@ import org.intellij.plugins.intelliLang.inject.LanguageInjectionSupport;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

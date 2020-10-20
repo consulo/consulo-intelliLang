@@ -20,12 +20,12 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.util.containers.ContainerUtil;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.intellij.plugins.intelliLang.Configuration;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
