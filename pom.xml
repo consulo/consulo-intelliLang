@@ -49,9 +49,6 @@
 				<extensions>true</extensions>
 				<configuration>
 					<repositoryChannel>nightly</repositoryChannel>
-					<dependencies>
-						<dependency>com.intellij.regexp</dependency>
-					</dependencies>
 					<packaging>
 						<skip>${dev.mode}</skip>
 						<version>${build.number}</version>
@@ -68,13 +65,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<dependencies>
-		<dependency>
-			<groupId>consulo.plugin</groupId>
-			<artifactId>com.intellij.regexp</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
 </project>
