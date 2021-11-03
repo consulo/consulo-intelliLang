@@ -4,4 +4,7 @@
 	<vendor>consulo.io</vendor>
 	<description>Obsolete plugin, do nothing</description>
 	<version>SNAPSHOT</version>
+	<tags>
+		<tag>editor.extension</tag>
+	</tags>
 </consulo-plugin>
